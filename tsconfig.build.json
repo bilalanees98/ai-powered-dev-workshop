@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "apps/api-server"
+    },
+    {
+      "path": "apps/common"
+    },
+    {
+      "path": "apps/lamda-mgr"
+    }
+  ]
+}

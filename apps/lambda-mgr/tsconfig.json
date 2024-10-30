@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+
+    "paths": {
+      "@app/common": ["../../common/dist/*"],
+      "@app/common/*": ["../../common/dist/*"]
+    },
+
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "include": ["./src"]
+}

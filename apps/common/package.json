@@ -1,0 +1,29 @@
+{
+  "name": "@app/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Muhammad Bilal",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
+    "axios": "^1.7.2",
+    "class-validator": "^0.14.0",
+    "dotenv": "^16.4.5",
+    "joi": "^17.13.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "node-fetch": "^2.7.0",
+    "typeorm": "^0.3.17",
+    "typeorm-encrypted": "^0.8.0",
+    "typeorm-naming-strategies": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}

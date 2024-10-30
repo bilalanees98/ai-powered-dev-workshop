@@ -1,0 +1,4 @@
+option_settings:
+  aws:elasticbeanstalk:application:environment:
+    IMAGE_TAG: __IMAGE_TAG__
+    # Other environment variables here

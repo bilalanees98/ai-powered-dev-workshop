@@ -1,0 +1,16 @@
+config
+database
+dist
+node_modules
+# scripts
+.git
+*.env
+README.md
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore

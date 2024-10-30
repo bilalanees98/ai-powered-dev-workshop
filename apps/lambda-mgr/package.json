@@ -1,0 +1,44 @@
+{
+  "name": "lambda-mgr",
+  "version": "1.0.0",
+  "description": "AWS lambda handler that Lambda that can be built and run locally via docker.",
+  "private": "true",
+  "main": "index.js",
+  "config": {
+    "dockerImageName": "lambda-mgr",
+    "dockerContainerName": "lambda-mgr",
+    "dockerImageEcrName": "<ecr repo name>/<app-name>/lambda-mgr",
+    "ecrRepoName": "<ecr repo name>"
+  },
+  "scripts": {
+    "tsc-build": "tsc --build",
+    "esbuild": "esbuild src/index.ts --bundle --sourcemap --platform=node --target=esnext --outfile=dist/index.js",
+    "build": "npm run tsc-build",
+    "dev-build": "npm run tsc-build",
+    "docker:build": "sh ./scripts/check-image-tag.sh && tar --exclude='node_modules' --exclude='dist' --exclude='.git' --exclude='*.env' -cf - ../.. | docker build --platform linux/amd64 -f apps/cronjob-mgr/Dockerfile - -t $npm_package_config_dockerImageName:${IMAGE_TAG}",
+    "docker:login": "./scripts/docker-login.sh $npm_package_config_ecrRepoName:",
+    "docker:publish": "sh ./scripts/check-image-tag.sh && docker tag $npm_package_config_dockerImageName:${IMAGE_TAG} $npm_package_config_dockerImageEcrName:${IMAGE_TAG} && docker push $npm_package_config_dockerImageEcrName:${IMAGE_TAG}",
+    "docker:login-publish": "npm run docker:login && npm run docker:publish",
+    "docker:start": "sh ./scripts/check-image-tag.sh && docker run --platform linux/amd64 --env-file ./.env -p 9002:8080 --name $npm_package_config_dockerContainerName --rm -it $npm_package_config_dockerImageName:${IMAGE_TAG}",
+    "docker:dev:build": "IMAGE_TAG=dev npm run docker:build",
+    "docker:dev": "docker run --platform linux/amd64 --env-file ./.env -p 9002:8080 --mount type=bind,src=$(pwd)/dist,target=/app/apps/cronjob-mgr/dist --name $npm_package_config_dockerDevContainerName --rm -i  --network=app_network $npm_package_config_dockerImageName:dev",
+    "docker:dev-stop": "docker rm -f $npm_package_config_dockerDevContainerName || true",
+    "dev": "nodemon",
+    "populate-env-vars:prod": "./scripts/populate-env-vars.sh prod.env <lambda-fn-name>",
+    "populate-env-vars:staging": "./scripts/populate-env-vars.sh staging.env <lambda-fn-name>"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.138",
+    "@types/node": "^20.14.2",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.21.4",
+    "nodemon": "^3.1.3",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@app/common": "^1.0.0",
+    "typeorm": "^0.3.20"
+  },
+  "author": "Muhammad Bilal",
+  "license": "ISC"
+}

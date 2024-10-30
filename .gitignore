@@ -1,0 +1,31 @@
+.idea/
+.vscode/
+.DS_Store
+
+node_modules/
+build/
+dist/
+tmp/
+temp/
+
+database/*
+!database/.gitkeep 
+
+log/*
+!log/.gitkeep 
+*.log
+
+.elasticbeanstalk
+# keep config folder with env files ONLY for demo purposes
+.env
+*.env
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+#coverage
+coverage/*
+!coverage/.gitkeep
+tsconfig.tsbuildinfo
+
+.sentryclirc

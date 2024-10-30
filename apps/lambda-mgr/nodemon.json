@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json,js",
+  "ignore": ["src/**/*.spec.ts", "./**/node_modules", "node_modules"],
+  "exec": "npm run docker:dev-stop && npm run dev-build  && npm run docker:dev"
+}
