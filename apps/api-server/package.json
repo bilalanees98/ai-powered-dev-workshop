@@ -10,7 +10,7 @@
     "ecrRepoName": "<ecr repo name>"
   },
   "scripts": {
-    "dev": "npm run migration:run && debug=* NODE_PATH=./src ts-node-dev -r tsconfig-paths/register --respawn ./src/index.ts",
+    "dev": "debug=* NODE_PATH=./src ts-node-dev -r tsconfig-paths/register --respawn ./src/index.ts",
     "tsc-build": "tsc --build",
     "build": "npm run tsc-build",
     "start": "npm run migration:run && NODE_PATH=./dist node -r tsconfig-paths/register ./dist/index.js",
