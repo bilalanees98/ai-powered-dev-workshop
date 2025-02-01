@@ -1,4 +1,4 @@
-export * as config from './config';
+export { config, initConfig } from './config';
 export * from './consts';
 export * from './types';
 export * from './utils';

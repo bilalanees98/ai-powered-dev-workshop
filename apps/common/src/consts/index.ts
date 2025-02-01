@@ -1,4 +1,4 @@
-import config from '../config';
+import { config } from '../config';
 
 /**
  * CORS -------------------------------------
@@ -6,11 +6,8 @@ import config from '../config';
 export const ALL_ORIGINS_ALLOWED_ROUTES: string[] = ['/stripe-session-complete'];
 
 /**
- * domain -- has lots of constants - stored in a separate module
- */
-
-/**
  * Logger -------------------------------------
  */
-export const IS_LOCAL_DEV_MODE = config.environment === 'development' || config.environment === 'dev';
-export const IS_TEST_MODE = config.environment === 'test';
+export const isLocalDevMode = (): boolean => ['dev', 'development'].includes(config.get('NODE_ENV'));
+
+export const isTestMode = (): boolean => config.get('NODE_ENV') === 'test';

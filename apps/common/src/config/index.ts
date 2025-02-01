@@ -1,42 +1,26 @@
-import Joi from 'joi';
-import 'dotenv/config';
+import { ConfigService } from './service';
+import { ConfigSchema } from './types';
 
-const envVarsSchema = Joi.object()
-  .keys({
-    NODE_ENV: Joi.string().valid('production', 'development', 'dev', 'staging', 'test').required(),
-    PORT: Joi.number().default(80),
-    DATABASE_NAME: Joi.string().required(),
-    DATABASE_HOST: Joi.string().required().description('database host, i.e db container internal ip'),
-    DATABASE_PORT: Joi.number().default(3306),
-    DATABASE_USER: Joi.string().required(),
-    DATABASE_PASSWORD: Joi.string().required(),
-    DATABASE_CONNECTION_LIMIT: Joi.number().default(10),
-    DATABASE_CONNECTION_NAME: Joi.string().default('default'),
-    DATABASE_SYNC_ON: Joi.boolean().default(false).description('sync entities with schema only for dev env'),
-  })
-  .unknown();
+export const configService = new ConfigService();
 
-const envs = {
-  ...process.env,
-};
+let initialized = false;
 
-const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(envs);
-
-if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
-}
-
-const config = {
-  environment: envVars.NODE_ENV,
-  mysql: {
-    dbName: envVars.DATABASE_NAME,
-    host: envVars.DATABASE_HOST,
-    port: envVars.DATABASE_PORT,
-    username: envVars.DATABASE_USER,
-    password: envVars.DATABASE_PASSWORD,
-    connectionLimit: envVars.DATABASE_CONNECTION_LIMIT,
-    connectionName: envVars.DATABASE_CONNECTION_NAME,
-    synchronization: envVars.DATABASE_SYNC_ON,
+// Synchronous wrapper for accessing configuration
+export const config = {
+  get: <T extends keyof ConfigSchema>(key: T): ConfigSchema[T] => {
+    if (!initialized) {
+      throw new Error(
+        `Configuration not loaded. Ensure the configuration module is initialized before accessing variables. Key: ${key}`,
+      );
+    }
+    return configService.get(key);
   },
 };
-export default config;
+
+// Export initialization function for explicit loading (if needed)
+export async function initConfig(): Promise<void> {
+  if (!initialized) {
+    await configService.loadConfig();
+    initialized = true;
+  }
+}

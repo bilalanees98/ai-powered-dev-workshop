@@ -13,6 +13,7 @@ import { CustomError } from 'utils/response/custom-error/CustomError';
 import { errorHandler } from './middleware/errorHandler';
 import routes from './routes';
 import './utils/response/customSuccess';
+import { initConfig, config as commonConfig } from '@app/common';
 
 export const app = express();
 const allowedOrigins: string[] = ['https://localhost:80'];
@@ -67,12 +68,14 @@ app.use((_req, _res, next) => {
 
 app.use(errorHandler);
 
-const port = config.port;
-app.listen(port, () => {
-  logger.info(`Server running on port ${port}`);
-});
-
-// initialize db connection and seed
 (async () => {
-  logger.info(`Server started`);
+  // uncomment the next line to see the server throw a 'configuration not loaded' error
+  // console.log('NODE_ENV: ', commonConfig.get('NODE_ENV'));
+  console.log('Initializing config');
+  await initConfig();
+  console.log('DATABASE_NAME: ', commonConfig.get('DATABASE_NAME'));
+  const port = config.port;
+  app.listen(port, () => {
+    logger.info(`Server running on port ${port}`);
+  });
 })();

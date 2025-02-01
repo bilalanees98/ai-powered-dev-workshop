@@ -1,22 +1,26 @@
 import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import config from '../../config';
+import { config } from '../../config';
 
-export const DATA_SOURCE_OPTIONS: DataSourceOptions = {
-  type: 'mysql',
-  name: config.mysql.connectionName,
-  database: config.mysql.dbName,
-  host: config.mysql.host,
-  port: Number(config.mysql.port),
-  username: config.mysql.username,
-  password: config.mysql.password,
-  synchronize: config.mysql.synchronization,
-  logging: false,
-  entities: [join(__dirname + '/../entities/**/*.{ts,js}')],
-  migrations: [join(__dirname + '/../migrations/**/*.{ts,js}')],
-  namingStrategy: new SnakeNamingStrategy(),
-  extra: { connectionLimit: config.mysql.connectionLimit },
+const getDataSourceOptions = (): DataSourceOptions => {
+  return {
+    type: 'mysql',
+    name: config.get('DATABASE_CONNECTION_NAME'),
+    database: config.get('DATABASE_NAME'),
+    host: config.get('DATABASE_HOST'),
+    port: config.get('DATABASE_PORT'),
+    username: config.get('DATABASE_USER'),
+    password: config.get('DATABASE_PASSWORD'),
+    synchronize: config.get('DATABASE_SYNC_ON'),
+    logging: false,
+    entities: [join(__dirname + '/../entities/**/*.{ts,js}')],
+    migrations: [join(__dirname + '/../migrations/**/*.{ts,js}')],
+    namingStrategy: new SnakeNamingStrategy(),
+    extra: { connectionLimit: config.get('DATABASE_CONNECTION_LIMIT') },
+  };
 };
 
-export const AppDataSource = new DataSource(DATA_SOURCE_OPTIONS);
+export const getAppDataSource = () => {
+  return new DataSource(getDataSourceOptions());
+};
