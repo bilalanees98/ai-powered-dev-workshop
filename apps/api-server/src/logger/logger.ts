@@ -1,7 +1,6 @@
 import winston from 'winston';
 import { IS_LOCAL_DEV_MODE } from 'consts/Logger';
 import config from '../config/config';
-import { CLOUDWATCH_ERROR_TRANSPORT, CLOUDWATCH_INFO_TRANSPORT } from './cloudwatchTransport';
 
 interface LoggingInfo {
   level: string;
@@ -30,8 +29,6 @@ const logger = winston.createLogger({
       silent: !IS_LOCAL_DEV_MODE, //silent in prod and staging
       stderrLevels: ['error'],
     }),
-    CLOUDWATCH_ERROR_TRANSPORT,
-    CLOUDWATCH_INFO_TRANSPORT,
   ],
 });
 

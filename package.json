@@ -19,7 +19,7 @@
     "localdb:create-network": "docker network create app_network",
     "localdb:start": "docker run --name app_local_db -e MYSQL_ROOT_PASSWORD=randomPassword -e MYSQL_DATABASE=app_local -e MYSQL_INITDB_SKIP_TZINFO=true --rm -p 3306:3306 --mount type=bind,src=$(pwd)/database,target=/var/lib/mysql -it  --network=app_network mysql:8.0",
     "localdb:stop": "docker stop app_local_db",
-    "api-server:local": "docker compose --file api-server.docker-compose.dev.yml --env-file ./apps/api-server/.env up --build"
+    "api-server:local": "npm run build -w apps/common && docker compose --file api-server.docker-compose.dev.yml --env-file ./apps/api-server/.env up --build"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",

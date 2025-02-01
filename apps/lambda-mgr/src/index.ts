@@ -1,8 +1,4 @@
-import './instrumentation'; //must be imported before everything else
-
 import { getDataSource } from './connection';
-import * as Sentry from '@sentry/aws-serverless';
-import { checkAndUpdateUnprocessedTransactions, deleteExpiredOtps, processAndSendReminderEmails } from './cronJobs';
 
 interface EventBridgeEvent {
   cronJobType: 'processTxs' | 'processReminderEmails' | 'deleteExpiredOtps';
@@ -22,15 +18,7 @@ async function cronHandler(receivedEvent: any) {
   try {
     switch (event.cronJobType) {
       case 'processTxs':
-        await checkAndUpdateUnprocessedTransactions(queryRunner);
-        break;
-
-      case 'processReminderEmails':
-        await processAndSendReminderEmails(queryRunner);
-        break;
-
-      case 'deleteExpiredOtps':
-        await deleteExpiredOtps(manager);
+        console.log('processing txs');
         break;
 
       default:
@@ -45,4 +33,4 @@ async function cronHandler(receivedEvent: any) {
   }
 }
 
-export const handler = Sentry.wrapHandler(cronHandler);
+export const handler = cronHandler;

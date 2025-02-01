@@ -1,6 +1,6 @@
+import { PowerUserRole } from '@app/common';
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
-import { PowerUserRole } from 'types';
 
 export interface CustomJwtPayload extends JwtPayload {
   id: string;

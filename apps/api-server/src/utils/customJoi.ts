@@ -1,4 +1,3 @@
-import { validateStacksAddress } from '@stacks/transactions';
 import Joi from 'joi';
 
 function validateFqn(fqn: string) {
@@ -7,18 +6,6 @@ function validateFqn(fqn: string) {
 }
 
 const customJoi = Joi.extend((joi) => ({
-  type: 'stacksAddress',
-  base: joi.string(),
-  messages: {
-    'stacksAddress.invalid': '"{{#label}}" must be a valid Stacks address',
-  },
-  //   @ts-ignore
-  validate(value, helpers) {
-    if (!validateStacksAddress(value)) {
-      return { value, errors: helpers.error('stacksAddress.invalid') };
-    }
-  },
-})).extend((joi) => ({
   type: 'fullyQualifiedName',
   base: joi.string(),
   messages: {

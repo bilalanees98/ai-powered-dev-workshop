@@ -2,7 +2,6 @@ import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import config from '../../config';
-// import { logger } from 'logger';
 
 // Allow synchronization of schema and entities in development environment only
 // Don't set this option to true in production. You can lose all of your data

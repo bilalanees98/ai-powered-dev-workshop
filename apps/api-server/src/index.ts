@@ -1,5 +1,3 @@
-import 'instrumentation/sentry';
-
 import 'reflect-metadata';
 import bodyParser from 'body-parser';
 import compression from 'compression';
@@ -15,10 +13,9 @@ import { CustomError } from 'utils/response/custom-error/CustomError';
 import { errorHandler } from './middleware/errorHandler';
 import routes from './routes';
 import './utils/response/customSuccess';
-import * as Sentry from '@sentry/node';
 
 export const app = express();
-const allowedOrigins: string[] = config.allowedOrigins;
+const allowedOrigins: string[] = ['https://localhost:80'];
 
 //https://btc-us.atlassian.net/browse/BTC-584
 const corsOptionsDelegate: CorsOptionsDelegate = function (
@@ -62,9 +59,6 @@ if (config.environment !== 'test') {
 app.use(compression());
 
 app.use('/', routes);
-
-// The error handler must be registered before any other error middleware and after all controllers
-Sentry.setupExpressErrorHandler(app);
 
 // return 404 for unknown requests
 app.use((_req, _res, next) => {

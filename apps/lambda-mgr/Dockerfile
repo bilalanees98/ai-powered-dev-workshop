@@ -5,19 +5,19 @@ WORKDIR /app
 COPY package*.json  ./
 
 RUN mkdir -p apps/common
-RUN mkdir -p apps/cronjob-mgr
+RUN mkdir -p apps/lambda-mgr
 
-COPY ./apps/cronjob-mgr/package.json ./apps/cronjob-mgr
+COPY ./apps/lambda-mgr/package.json ./apps/lambda-mgr
 COPY ./apps/common/package.json ./apps/common
 
-RUN npm install -w apps/common && npm install -w apps/cronjob-mgr
+RUN npm install -w apps/common && npm install -w apps/lambda-mgr
 
 
 COPY ./tsconfig*.json ./
-COPY ./apps/cronjob-mgr/ ./apps/cronjob-mgr/
+COPY ./apps/lambda-mgr/ ./apps/lambda-mgr/
 COPY ./apps/common/ ./apps/common/
 
 RUN npm run build -w ./apps/common
-RUN npm run build -w ./apps/cronjob-mgr
+RUN npm run build -w ./apps/lambda-mgr
 
-CMD ["/app/apps/cronjob-mgr/dist/index.handler"]
+CMD ["/app/apps/lambda-mgr/dist/index.handler"]

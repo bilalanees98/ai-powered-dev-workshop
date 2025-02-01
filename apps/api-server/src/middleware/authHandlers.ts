@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken';
 import config from 'config/config';
 import { handleCustomError } from 'controllers/handleCustomError';
 import { API_ERRORS, errorMessage } from 'errors/apiErrors';
-import { PowerUserRole } from 'types';
 import { CustomJwtPayload, JwtRequest } from 'types/jwt';
+import { PowerUserRole } from '@app/common';
 
 /**
  * @description jwt authentication for endpoint

@@ -1,5 +1,5 @@
 {
-  "name": "@orange-domains/api-server",
+  "name": "@app/api-server",
   "version": "1.0.0",
   "description": "Basic NodeJS + express API server.",
   "private": "true",
@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "npm run migration:run && debug=* NODE_PATH=./src ts-node-dev -r tsconfig-paths/register --respawn ./src/index.ts",
     "tsc-build": "tsc --build",
-    "build": "npm run tsc-build && npm run sentry:sourcemaps",
+    "build": "npm run tsc-build",
     "start": "npm run migration:run && NODE_PATH=./dist node -r tsconfig-paths/register ./dist/index.js",
     "create:network": "sh ./scripts/create-docker-network.sh",
     "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ../common/src/orm/config/index.ts",
@@ -35,8 +35,7 @@
     "deploy:image:staging": "sh ./scripts/check-image-tag.sh && sh ./scripts/update-image-tag-eb-env.sh ${IMAGE_TAG} && eb deploy staging-api-server",
     "deploy:image:prod": "sh ./scripts/check-image-tag.sh && sh ./scripts/update-image-tag-eb-env.sh ${IMAGE_TAG} && eb deploy prod-api-server",
     "populate-env-vars:prod": "./scripts/populate-env-vars.sh prod.env prod-api-server",
-    "populate-env-vars:staging": "./scripts/populate-env-vars.sh staging.env staging-api-server",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org <org-name> --project <proj-name> ./dist && sentry-cli --url https://sentry.io/ sourcemaps upload --org <org-name> --project <proj-name> ./dist"
+    "populate-env-vars:staging": "./scripts/populate-env-vars.sh staging.env staging-api-server"
   },
   "dependencies": {
     "@app/common": "^1.0.0",
